@@ -1,23 +1,22 @@
-import express,{urlencoded} from "express"
-import cors from "cors"
-import {config} from "dotenv"
+import express, { urlencoded } from "express";
+import cors from "cors";
+import { config } from "dotenv";
 import ErrorMiddleware from "./middlewares/error.js";
 
-
 config({
-    path: "./config/config.env",
-  });
-const app=express()
+  path: "./config/config.env",
+});
+const app = express();
 
+app.use(express.json());
+app.use(cors());
 
+import Routes from "./routes/choice.js";
 
-app.use(express.json())
-app.use(cors())
+app.use("/api/v1", Routes);
+app.use("/", (req, res) => {
+  res.send("Express on Vercel");
+});
 
-
-import Routes from "./routes/choice.js"
-
-app.use("/api/v1",Routes)
-
-app.use(ErrorMiddleware)
-export default app
+app.use(ErrorMiddleware);
+export default app;
